@@ -1,5 +1,7 @@
 'use client';
 
+// 強制再ビルド用コメント
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
