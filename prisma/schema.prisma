@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 顧客マスタ
+model Customer {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  address     String?
+  phoneNumber String?
+  email       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[]
+}
+
+// 製品マスタ
+model Product {
+  id          Int           @id @default(autoincrement())
+  code        String        @unique
+  name        String
+  description String?
+  price       Float
+  stock       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  orderItems  OrderItem[]
+}
+
+// 受注テーブル
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNumber String      @unique
+  customerId  Int
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  orderDate   DateTime    @default(now())
+  dueDate     DateTime?
+  status      String      @default("processing") // processing, manufacturing, shipped, delivered, etc.
+  totalAmount Float
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  items       OrderItem[]
+  deliveries  Delivery[]
+}
+
+// 受注明細テーブル
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 納品テーブル
+model Delivery {
+  id           Int      @id @default(autoincrement())
+  deliveryNumber String  @unique
+  orderId      Int
+  order        Order    @relation(fields: [orderId], references: [id])
+  deliveryDate DateTime @default(now())
+  status       String   @default("preparing") // preparing, shipped, delivered
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50">
@@ -39,6 +37,16 @@ export default function Home() {
               <h3 className="font-medium text-purple-800 mb-2">在庫管理</h3>
               <p className="text-sm text-gray-600">製品の在庫状況を管理します</p>
             </div>
+          </div>
+          
+          {/* 受注一覧へのリンク - ここが追加部分 */}
+          <div className="mt-8">
+            <a 
+              href="/orders" 
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+            >
+              受注一覧を見る →
+            </a>
           </div>
           
           <div className="mt-8">
