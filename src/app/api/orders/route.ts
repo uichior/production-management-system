@@ -1,22 +1,35 @@
-// src/app/api/orders/route.ts
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
-
+// モックデータを返すようにする
 export async function GET() {
   try {
-    const orders = await prisma.order.findMany({
-      include: {
-        customer: true,
-        items: {
-          include: {
-            product: true,
-          },
+    // 本物のデータベースの代わりにハードコードされたデータを返す
+    const orders = [
+      {
+        id: 1,
+        orderNumber: 'ORD-2025-0001',
+        customerId: 1,
+        customer: {
+          name: '株式会社テック'
         },
-        deliveries: true,
+        orderDate: '2025-03-05T00:00:00.000Z',
+        dueDate: '2025-03-12T00:00:00.000Z',
+        status: 'processing',
+        totalAmount: 245000
       },
-    });
+      {
+        id: 2,
+        orderNumber: 'ORD-2025-0002',
+        customerId: 2,
+        customer: {
+          name: 'ABC商事'
+        },
+        orderDate: '2025-03-05T00:00:00.000Z',
+        dueDate: '2025-03-15T00:00:00.000Z',
+        status: 'manufacturing',
+        totalAmount: 78000
+      }
+    ];
     
     return NextResponse.json(orders);
   } catch (error) {
