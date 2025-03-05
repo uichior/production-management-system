@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type Order = {
   id: number;
@@ -79,9 +80,9 @@ export default function OrdersPage() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">受注管理</h1>
-          <a href="/" className="text-blue-600 hover:text-blue-800">
+          <Link href="/" className="text-blue-600 hover:text-blue-800">
             ← ホームに戻る
-          </a>
+          </Link>
         </div>
       </header>
 
